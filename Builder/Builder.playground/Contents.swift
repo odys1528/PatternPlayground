@@ -154,3 +154,42 @@ extension TextValidatorBuilder: TextValidator {
         return self
     }
 }
+
+// MARK: - Director protocols
+
+// MARK: Text builder director protocol
+
+/// Director protocol to describe director's relation with builders and validators.
+protocol TextBuilderDirector {
+    
+    /// Method responsible for creating validator with given builder.
+    /// - Parameters:
+    ///    - builder: set of characters that shouldn't be present in text.
+    /// - Returns: `Validator` for further validation result extraction.
+    func create(using builder: TextValidatorBuilder) -> any Validator
+}
+
+/// Username builder director to create username validator.
+final class UsernameBuilderDirector: TextBuilderDirector {
+
+    // - SeeAlso: ``TextBuilderDirector/create(using:)``
+    func create(using builder: TextValidatorBuilder) -> any Validator {
+        builder
+            .checkNotEmpty()
+            .checkMaxLength(20)
+            .checkNoForbiddenCharacters(CharacterSet(charactersIn: "()<>[]{}"))
+    }
+}
+
+/// Password builder director to create password validator.
+final class PasswordBuilderDirector: TextBuilderDirector {
+
+    // - SeeAlso: ``TextBuilderDirector/create(using:)``
+    func create(using builder: TextValidatorBuilder) -> any Validator {
+        builder
+            .checkMinLength(8)
+            .checkIfContainsLowercaseLetters()
+            .checkIfContainsUppercaseLetters()
+            .checkIfContainsNumbers()
+    }
+}
