@@ -6,10 +6,10 @@ import Foundation
 
 /// Validator protocol to describe validation functionality.
 protocol Validator {
-    
+
     /// Type of error possible to appear during validation.
     associatedtype ValidationError
-    
+
     /// Validation method that returns the final result of validation.
     /// - Returns: tuple with boolean status of validation and array of possible errors encountered during validation.
     func validate() -> (isValid: Bool, errors: [ValidationError])
@@ -19,31 +19,31 @@ protocol Validator {
 
 /// Validator protocol to define validation steps possible to perform on text.
 protocol TextValidator: Validator {
-    
+
     /// Checks if text is not empty.
     /// - Returns: `self` for further chaining.
     func checkNotEmpty() -> Self
-    
+
     /// Checks if text is long enough.
     /// - Returns: `self` for further chaining.
     func checkMinLength(_ length: Int) -> Self
-    
+
     /// Checks if text is not too long.
     /// - Returns: `self` for further chaining.
     func checkMaxLength(_ length: Int) -> Self
-    
+
     /// Checks if text contains numbers.
     /// - Returns: `self` for further chaining.
     func checkIfContainsNumbers() -> Self
-    
+
     /// Checks if text contains uppercase letters.
     /// - Returns: `self` for further chaining.
     func checkIfContainsUppercaseLetters() -> Self
-    
+
     /// Checks if text contains lowercase letters.
     /// - Returns: `self` for further chaining.
     func checkIfContainsLowercaseLetters() -> Self
-    
+
     /// Checks if text doesn't contain forbidden characters.
     /// - Parameters:
     ///    - forbiddenCharacters: set of characters that shouldn't be present in text.
@@ -55,9 +55,9 @@ protocol TextValidator: Validator {
 
 /// Text validator builder to create validator for different types of string.
 final class TextValidatorBuilder {
-    
+
     // MARK: Private properties
-    
+
     /// Array of partial errors.
     private var errors: [ValidationError] = []
 
@@ -65,7 +65,7 @@ final class TextValidatorBuilder {
     private let text: String
 
     // MARK: Initialization
-    
+
     init(text: String) {
         self.text = text
     }
@@ -74,7 +74,7 @@ final class TextValidatorBuilder {
 // MARK: TextValidatorBuilder + TextValidator
 
 extension TextValidatorBuilder: TextValidator {
-    
+
     // - SeeAlso: ``TextValidator/ValidationError``
     enum ValidationError {
         case isEmpty
@@ -85,7 +85,7 @@ extension TextValidatorBuilder: TextValidator {
         case missingUppercase
         case forbiddenCharacter
     }
-    
+
     // - SeeAlso: ``TextValidator/validate()``
     func validate() -> (isValid: Bool, errors: [ValidationError]) {
         (isValid: errors.isEmpty, errors: errors)
