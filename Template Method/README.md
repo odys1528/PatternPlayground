@@ -1,5 +1,5 @@
 # About snippet
-Form validation processing class for form containing mandatory and optional input.
+Form validation processing class for a form containing mandatory and optional input.
 Main processing method uses protocol steps which can be specified by class implementation.
 
 
